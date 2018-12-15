@@ -59,7 +59,7 @@ var url = "http://api.douban.com/v2/movie/top250?start=0&count=" + config.movie.
                     });
                     // console.log("=======>  links: \n", links);
                     // process.send({links})
-                    // 此处更改process.send()
+                    // 此处更改process.send(), 等待process.send()完成向父进程传递完数据
                     _context.next = 9;
                     return sendMessage({ links: links });
 

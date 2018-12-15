@@ -43,8 +43,8 @@ var movie_crawler_script = resolve(__dirname, "../../crawler/movie/movieCrawler.
                         console.log("子进程退出: ", code);
                     });
                     cp.on("message", function (obj) {
-                        var items = obj.links;
                         console.log("Get from child process: \n", obj.links);
+                        var items = obj.links;
 
                         items.forEach(function () {
                             var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(item) {

@@ -18,10 +18,25 @@ const trailerBaseUrl = "https://movie.douban.com/subject/";
 
         browser.close();
 
-        process.send(trailers);
+        // process.send(trailers);
+        const msg = await sendMessage(trailers);
+        console.log(msg);
+
         process.exit(0);
     })
 })()
+
+const sendMessage = (obj) => {
+    return new Promise((resolve, reject) => {
+        process.send(obj, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve("send back!!!")
+            }
+        })
+    })
+}
 
 const crawler_video = async  (browser, doubanId) => {
     const trailerUrl = `${trailerBaseUrl}${doubanId}`;
@@ -34,34 +49,47 @@ const crawler_video = async  (browser, doubanId) => {
 
     const result = await page.evaluate(() => {
         let aEle = document.querySelector(".related-pic-video");
-        let url = aEle.getAttribute("href");
-        let str = aEle.getAttribute("style");
-        // 从str中获得电影预告片的封面海报
-        let startIndex = str.indexOf("(") + 1;
-        let endIndex = str.indexOf(")");
-        let cover = "";
-        for (let i = startIndex; i < endIndex; i++) {
-            cover += str[i];
-        }
-        return {
-            cover: cover,
-            url: url,
-            doubanId: null,
-            trailer: null
+        if (aEle) {
+            let url = aEle.getAttribute("href");
+            let str = aEle.getAttribute("style");
+            // 从str中获得电影预告片的封面海报
+            let startIndex = str.indexOf("(") + 1;
+            let endIndex = str.indexOf(")");
+            let cover = "";
+            for (let i = startIndex; i < endIndex; i++) {
+                cover += str[i];
+            }
+            return {
+                cover: cover,
+                url: url,
+                doubanId: null,
+                trailer: null
+            }
+        } else {
+            return {
+                cover: "",
+                url: "",
+                doubanId: null,
+                trailer: ""
+            }
         }
     })
 
-    await page.goto(result.url, {
-        waitUntil: "networkidle2",
-        timeout: 0
-    })
-
-    let rect = await page.evaluate(() => {
-        let sourceEle = document.querySelector("video > source");
-        return sourceEle.getAttribute("src");
-    })
-    result.trailer = rect;
-    result.doubanId = doubanId;
+    if (result.url !== "") {
+        await page.goto(result.url, {
+            waitUntil: "networkidle2",
+            timeout: 0
+        })
+    
+        let rect = await page.evaluate(() => {
+            let sourceEle = document.querySelector("video > source");
+            return sourceEle.getAttribute("src");
+        })
+        result.trailer = rect;
+        result.doubanId = doubanId;
+    } else {
+        result.doubanId = doubanId;
+    }
 
     return result;
 }
