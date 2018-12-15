@@ -11,6 +11,7 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var puppeteer = require("puppeteer");
+
 // https://movie.douban.com/subject/3878007/
 var trailerBaseUrl = "https://movie.douban.com/subject/";
 
@@ -21,43 +22,49 @@ var trailerBaseUrl = "https://movie.douban.com/subject/";
                 case 0:
                     process.on("message", function () {
                         var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(movies) {
-                            var browser, i, movie, result;
+                            var trailers, browser, i, movie, result;
                             return _regenerator2.default.wrap(function _callee$(_context) {
                                 while (1) {
                                     switch (_context.prev = _context.next) {
                                         case 0:
-                                            _context.next = 2;
+                                            // console.log(movies);
+                                            trailers = [];
+                                            _context.next = 3;
                                             return puppeteer.launch();
 
-                                        case 2:
+                                        case 3:
                                             browser = _context.sent;
                                             i = 0;
 
-                                        case 4:
+                                        case 5:
                                             if (!(i < movies.length)) {
-                                                _context.next = 13;
+                                                _context.next = 14;
                                                 break;
                                             }
 
                                             movie = movies[i];
-                                            _context.next = 8;
+                                            _context.next = 9;
                                             return crawler_video(browser, movie.doubanId);
 
-                                        case 8:
+                                        case 9:
                                             result = _context.sent;
 
-                                            console.log(result);
+                                            // console.log(result);
+                                            trailers.push(result);
 
-                                        case 10:
+                                        case 11:
                                             i++;
-                                            _context.next = 4;
+                                            _context.next = 5;
                                             break;
 
-                                        case 13:
+                                        case 14:
 
                                             browser.close();
 
-                                        case 14:
+                                            process.send(trailers);
+                                            process.exit(0);
+
+                                        case 17:
                                         case "end":
                                             return _context.stop();
                                     }

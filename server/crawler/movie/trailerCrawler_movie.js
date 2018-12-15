@@ -1,20 +1,25 @@
 const puppeteer = require("puppeteer");
+
 // https://movie.douban.com/subject/3878007/
 const trailerBaseUrl = "https://movie.douban.com/subject/";
 
 (async () => {
     process.on("message", async movies => {
         // console.log(movies);
+        const trailers = [];
         const browser = await puppeteer.launch();
 
         for (let i = 0; i < movies.length; i++) {
             let movie = movies[i];
             let result = await crawler_video(browser, movie.doubanId);
-            console.log(result);
-            
+            // console.log(result);
+            trailers.push(result);
         }
 
         browser.close();
+
+        process.send(trailers);
+        process.exit(0);
     })
 })()
 
