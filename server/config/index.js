@@ -1,4 +1,10 @@
 module.exports = {
+    'db':{
+        'name': 'movieDB'
+    },
+    'movie': {
+        'count': 249
+    },
     'qiniu': {
       'bucket': 'movies',
       'video': 'http://pjb2hpvdr.bkt.clouddn.com/',

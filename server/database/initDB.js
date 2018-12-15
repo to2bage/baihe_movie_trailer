@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
-const url = "mongodb://47.91.156.189:27017/baihe_movietrailer";
+const config = require("../config/index.js");
+const url = `mongodb://47.91.156.189:27017/${config.db.name}`;
 
 const connect = () => {
     return new Promise((resolve, reject) => {
         let curConnectionCount = 0;
         let maxConnectionCount = 5;
+
+        console.log("===> ", url);                          // test
 
         mongoose.connect(url, {useNewUrlParser: true});
 

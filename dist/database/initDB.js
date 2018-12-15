@@ -15,12 +15,15 @@ var _promise2 = _interopRequireDefault(_promise);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mongoose = require("mongoose");
-var url = "mongodb://47.91.156.189:27017/baihe_movietrailer";
+var config = require("../config/index.js");
+var url = "mongodb://47.91.156.189:27017/" + config.db.name;
 
 var connect = function connect() {
     return new _promise2.default(function (resolve, reject) {
         var curConnectionCount = 0;
         var maxConnectionCount = 5;
+
+        console.log("===> ", url); // test
 
         mongoose.connect(url, { useNewUrlParser: true });
 

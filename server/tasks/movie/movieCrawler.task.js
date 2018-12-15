@@ -20,8 +20,8 @@ const movie_crawler_script = resolve(__dirname, "../../crawler/movie/movieCrawle
         console.log("子进程退出: ", code);
     })
     cp.on("message", (obj) => {
+        console.log("Get from child process: \n", obj.links);
         const items = obj.links;
-        // console.log("Get from child process: \n", obj.links);
         
         items.forEach(async item => {
             let movieItem = await Movie.findOne({doubanId: item.doubanId}).exec();

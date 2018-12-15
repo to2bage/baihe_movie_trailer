@@ -44,7 +44,7 @@ var movie_crawler_script = resolve(__dirname, "../../crawler/movie/movieCrawler.
                     });
                     cp.on("message", function (obj) {
                         var items = obj.links;
-                        // console.log("Get from child process: \n", obj.links);
+                        console.log("Get from child process: \n", obj.links);
 
                         items.forEach(function () {
                             var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(item) {
