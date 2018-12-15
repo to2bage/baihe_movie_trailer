@@ -62,6 +62,8 @@ var scriptPath = resolve(__dirname, "../../crawler/movie/trailerCrawler_movie.js
                                             }
 
                                             item = obj[i];
+                                            // 必须是findOne, 不能是find;
+
                                             _context.next = 5;
                                             return Movie.findOne({ doubanId: item.doubanId }).exec();
 
