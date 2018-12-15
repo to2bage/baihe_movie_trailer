@@ -2,13 +2,25 @@ const puppeteer = require("puppeteer");
 // https://movie.douban.com/subject/3878007/
 const trailerBaseUrl = "https://movie.douban.com/subject/";
 
-
-
 (async () => {
-    const doubanId = "3878007";
+    process.on("message", async movies => {
+        // console.log(movies);
+        const browser = await puppeteer.launch();
+
+        for (let i = 0; i < movies.length; i++) {
+            let movie = movies[i];
+            let result = await crawler_video(browser, movie.doubanId);
+            console.log(result);
+            
+        }
+
+        browser.close();
+    })
+})()
+
+const crawler_video = async  (browser, doubanId) => {
     const trailerUrl = `${trailerBaseUrl}${doubanId}`;
-    // console.log(trailerUrl);
-    const browser = await puppeteer.launch();
+    console.log(trailerUrl);
     const page = await browser.newPage();
     await page.goto(trailerUrl, {
         waitUntil: "networkidle2",
@@ -34,10 +46,6 @@ const trailerBaseUrl = "https://movie.douban.com/subject/";
         }
     })
 
-    // console.log("初步的电影海报结果: ", result.cover);
-    // console.log("初步的电影预告片的结果: ", result.url);
-
-    // 继续获得电影预告片的确实的地址
     await page.goto(result.url, {
         waitUntil: "networkidle2",
         timeout: 0
@@ -50,5 +58,5 @@ const trailerBaseUrl = "https://movie.douban.com/subject/";
     result.trailer = rect;
     result.doubanId = doubanId;
 
-    console.log(result);
-})();
+    return result;
+}

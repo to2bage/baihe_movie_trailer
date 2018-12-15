@@ -31,7 +31,7 @@ var url = "http://api.douban.com/v2/movie/top250?start=0&count=10";
 
                     docs.data.subjects.forEach(function (item) {
                         var movieItem = {
-                            doubanId: item.doubanId,
+                            doubanId: item.id,
                             title: item.title,
                             original_title: item.original_title,
                             year: item.year,
