@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const config = require("../config/index.js");
-const url = `mongodb://47.91.156.189:27017/${config.db.name}`;
+// const url = `mongodb://47.91.156.189:27017/${config.db.name}`;
+const url = `mongodb://${config.db.dbAddress}:${config.db.port}/${config.db.name}`;
 
 const connect = () => {
     return new Promise((resolve, reject) => {

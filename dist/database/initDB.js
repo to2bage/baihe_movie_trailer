@@ -16,7 +16,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mongoose = require("mongoose");
 var config = require("../config/index.js");
-var url = "mongodb://47.91.156.189:27017/" + config.db.name;
+// const url = `mongodb://47.91.156.189:27017/${config.db.name}`;
+var url = "mongodb://" + config.db.dbAddress + ":" + config.db.port + "/" + config.db.name;
 
 var connect = function connect() {
     return new _promise2.default(function (resolve, reject) {

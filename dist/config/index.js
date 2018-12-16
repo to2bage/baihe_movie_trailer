@@ -2,7 +2,9 @@
 
 module.exports = {
     'db': {
-        'name': 'movieDB'
+        'name': 'movieDB',
+        'dbAddress': '47.91.156.189',
+        'port': '27017'
     },
     'movie': {
         'count': 249
